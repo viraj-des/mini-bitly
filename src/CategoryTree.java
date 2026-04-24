@@ -4,10 +4,9 @@ import java.util.List;
 
 public class CategoryTree {
 
-    // AVL Tree Node
     private static class TreeNode {
         String category;
-        List<String> urls;     // list of short keys in this category
+        List<String> urls;     
         TreeNode left, right;
         int height;
 
@@ -20,7 +19,6 @@ public class CategoryTree {
 
     private TreeNode root;
 
-    // ── AVL Helpers ──────────────────────────────────────────────────────────
 
     private int height(TreeNode n) {
         return n == null ? 0 : n.height;
@@ -70,9 +68,7 @@ public class CategoryTree {
         return n;
     }
 
-    // ── Public API ───────────────────────────────────────────────────────────
 
-    // Insert a short key under a category
     public void insert(String category, String shortKey) {
         root = insert(root, category, shortKey);
     }
@@ -89,7 +85,6 @@ public class CategoryTree {
         } else if (cmp > 0) {
             node.right = insert(node.right, category, shortKey);
         } else {
-            // Same category — just append the URL
             if (!node.urls.contains(shortKey))
                 node.urls.add(shortKey);
             return node;
@@ -97,7 +92,6 @@ public class CategoryTree {
         return balance(node);
     }
 
-    // Search for all short keys in a category
     public List<String> search(String category) {
         TreeNode node = search(root, category);
         return node == null ? new ArrayList<>() : new ArrayList<>(node.urls);
@@ -111,7 +105,6 @@ public class CategoryTree {
         return node;
     }
 
-    // In-order traversal — returns all categories alphabetically
     public List<String> inOrder() {
         List<String> result = new ArrayList<>();
         inOrder(root, result);

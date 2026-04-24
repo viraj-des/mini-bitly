@@ -6,7 +6,6 @@ import java.util.List;
 
 public class AccessHistory {
 
-    // ── Doubly Linked List Node ───────────────────────────────────────────────
     private static class Node {
         String timestamp;
         Node prev, next;
@@ -16,7 +15,6 @@ public class AccessHistory {
         }
     }
 
-    // Per-URL doubly linked list (chronological access log)
     private static class AccessList {
         Node head, tail;
         int size;
@@ -47,26 +45,22 @@ public class AccessHistory {
     private static final DateTimeFormatter FMT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    // shortKey -> AccessList
     private final HashMap<String, AccessList> historyMap;
 
     public AccessHistory() {
         historyMap = new HashMap<>();
     }
 
-    // Record a new access for a short key
     public void recordAccess(String shortKey) {
         historyMap.computeIfAbsent(shortKey, k -> new AccessList())
                   .addAccess(LocalDateTime.now().format(FMT));
     }
 
-    // Return all recorded timestamps for a short key (oldest first)
     public List<String> getHistory(String shortKey) {
         AccessList list = historyMap.get(shortKey);
         return list == null ? new ArrayList<>() : list.toList();
     }
 
-    // Total recorded accesses for a short key
     public int getAccessCount(String shortKey) {
         AccessList list = historyMap.get(shortKey);
         return list == null ? 0 : list.size;

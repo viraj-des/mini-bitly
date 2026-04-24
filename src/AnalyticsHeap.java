@@ -2,7 +2,6 @@ import java.util.*;
 
 public class AnalyticsHeap {
 
-    // Inner class representing a URL entry with click count
     public static class URLEntry implements Comparable<URLEntry> {
         String shortKey;
         String longUrl;
@@ -28,9 +27,7 @@ public class AnalyticsHeap {
         }
     }
 
-    // Max-Heap (reverse order comparator)
     private final PriorityQueue<URLEntry> heap;
-    // Index map for O(1) access to entries
     private final HashMap<String, URLEntry> index;
 
     public AnalyticsHeap() {
@@ -38,28 +35,23 @@ public class AnalyticsHeap {
         index = new HashMap<>();
     }
 
-    // Register a new URL entry
     public void addEntry(String shortKey, String longUrl, String category) {
         URLEntry entry = new URLEntry(shortKey, longUrl, category);
         index.put(shortKey, entry);
         heap.offer(entry);
     }
 
-    // Record an access / click for a short key
     public void recordAccess(String shortKey) {
         URLEntry entry = index.get(shortKey);
         if (entry == null) return;
 
-        // Remove, update, re-insert to maintain heap property
         heap.remove(entry);
         entry.clickCount++;
         heap.offer(entry);
     }
 
-    // Get top-K most accessed URLs
     public List<URLEntry> getTopK(int k) {
         List<URLEntry> result = new ArrayList<>();
-        // Drain into temp list, then restore
         List<URLEntry> temp = new ArrayList<>();
 
         int count = Math.min(k, heap.size());
@@ -68,12 +60,10 @@ public class AnalyticsHeap {
             result.add(top);
             temp.add(top);
         }
-        // Restore heap
         heap.addAll(temp);
         return result;
     }
 
-    // Get click count for a specific short key
     public int getClickCount(String shortKey) {
         URLEntry entry = index.get(shortKey);
         return entry == null ? 0 : entry.clickCount;

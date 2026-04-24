@@ -16,7 +16,7 @@ public class URLStore {
         counter = 0;
     }
 
-    // Base62 encode
+    
     private String encode(long id) {
         StringBuilder sb = new StringBuilder();
         while (id > 0) {
@@ -27,7 +27,6 @@ public class URLStore {
         return sb.reverse().toString();
     }
 
-    // Shorten a long URL; returns full short URL
     public String shorten(String longUrl) {
         if (reverseMap.containsKey(longUrl)) {
             return BASE_DOMAIN + reverseMap.get(longUrl);
@@ -39,17 +38,14 @@ public class URLStore {
         return BASE_DOMAIN + shortKey;
     }
 
-    // Resolve a short key -> long URL (null if not found)
     public String resolve(String shortKey) {
         return urlMap.get(shortKey);
     }
 
-    // Check existence
     public boolean exists(String shortKey) {
         return urlMap.containsKey(shortKey);
     }
 
-    // Return all mappings (shortKey -> longUrl)
     public Map<String, String> getAllMappings() {
         return new HashMap<>(urlMap);
     }
