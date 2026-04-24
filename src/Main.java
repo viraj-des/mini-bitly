@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    // Core data structures
     private static final URLStore store = new URLStore();
     private static final AnalyticsHeap heap = new AnalyticsHeap();
     private static final CategoryTree tree = new CategoryTree();

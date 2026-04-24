@@ -1,12 +1,8 @@
 import java.util.HashMap;
 
-/**
- * LRU Cache backed by a HashMap + Doubly Linked List.
- * O(1) get, O(1) put, O(1) eviction.
- */
+
 public class LRUCache {
 
-    // Doubly linked list node
     private static class Node {
         String key, value;
         Node prev, next;
@@ -19,21 +15,20 @@ public class LRUCache {
 
     private final int capacity;
     private final HashMap<String, Node> cache;
-    private final Node head; // Most Recently Used sentinel
-    private final Node tail; // Least Recently Used sentinel
+    private final Node head; 
+    private final Node tail; 
+
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
         cache = new HashMap<>();
 
-        // Sentinel nodes — never removed
         head = new Node("HEAD", "HEAD");
         tail = new Node("TAIL", "TAIL");
         head.next = tail;
         tail.prev = head;
     }
 
-    // ── Private helpers ───────────────────────────────────────────────────────
 
     private void removeNode(Node n) {
         n.prev.next = n.next;
@@ -58,9 +53,7 @@ public class LRUCache {
         return lru;
     }
 
-    // ── Public API ────────────────────────────────────────────────────────────
 
-    /** Returns the cached value, or null on miss. */
     public String get(String key) {
         Node n = cache.get(key);
         if (n == null) return null;
@@ -68,7 +61,6 @@ public class LRUCache {
         return n.value;
     }
 
-    /** Inserts or updates a key-value pair; evicts LRU if over capacity. */
     public void put(String key, String value) {
         Node n = cache.get(key);
         if (n != null) {
